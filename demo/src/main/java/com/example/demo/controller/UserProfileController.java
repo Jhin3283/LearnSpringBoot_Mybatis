@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.UserProfile;
@@ -30,8 +32,16 @@ public class UserProfileController {
 	public UserProfile getUserProfile(@PathVariable("id") String id) {
 		return userMap.get(id);
 	}
+
 	@GetMapping("/user/all")
 	public List<UserProfile> getUserProfileList() {
 		return new ArrayList<UserProfile>(userMap.values());
+	}
+
+	@PutMapping("/user/{id}")
+	public void putUserProfile(@PathVariable("id") String id, @RequestParam("name") String name,
+			@RequestParam("phone") String phone, @RequestParam("address") String address) {
+		UserProfile userProfile = new UserProfile(id, name, phone, address);
+		userMap.put(id, userProfile);
 	}
 }
