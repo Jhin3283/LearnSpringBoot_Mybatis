@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,5 +45,18 @@ public class UserProfileController {
 			@RequestParam("phone") String phone, @RequestParam("address") String address) {
 		UserProfile userProfile = new UserProfile(id, name, phone, address);
 		userMap.put(id, userProfile);
+	}
+	@PostMapping("/user/{id}")
+	public void postUserProfile(@PathVariable("id") String id, @RequestParam("name") String name,
+			@RequestParam("phone") String phone, @RequestParam("address") String address) {
+		UserProfile userProfile = userMap.get(id);
+		userProfile.setName(name);
+		userProfile.setPhone(phone);
+		userProfile.setAddress(address);
+	}
+	@DeleteMapping("/user/{id}")
+	public void deleteUserProfile(@PathVariable("id") String id) {
+		userMap.remove(id);
+		
 	}
 }
